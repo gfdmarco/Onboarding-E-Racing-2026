@@ -1,10 +1,10 @@
 # Passo 0: Imports necessários para o processo de visão computacional e delimitação das caixas de visualização (bounding boxes)
 
-#OpenCV para captura e pré-processamento
+# OpenCV para captura e pré-processamento
 import cv2
-#NumPy, dependência implícita para representação das coordenadas enquanto parte de matrizes
+# NumPy, dependência implícita para representação das coordenadas enquanto parte de matrizes
 import numpy as np
-#MediaPipe, framework para detecção, isolamento e classificação do objeto alvo
+# MediaPipe, framework para detecção, isolamento e classificação do objeto alvo
 import mediapipe as mp
 from mediapipe.tasks import python 
 from mediapipe.tasks.python import vision 
@@ -17,10 +17,10 @@ options = vision.ObjectDetectorOptions(base_options = base_options, score_thresh
 # Passo 2: inicialização do detector MediaPipe
 detector = vision.ObjectDetector.create_from_options(options)
 
-# Passo 3: Abertura do vídeo teste (poderia ser direto da webcam também)
-cap = cv2.VideoCapture("teste1.mp4")
+# Passo 3: Abertura do(a) vídeo teste/webcam
+cap = cv2.VideoCapture(0)
 if not cap.isOpened():
-    raise RuntimeError("O vídeo não pode ser aberto")
+    raise RuntimeError("O(a) vídeo/câmera não pode ser aberto(a)")
 
 # Passo 4: loop de detecção frame a frame
 while True:
@@ -33,21 +33,28 @@ while True:
     rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
     
     # Criação de imagem no formato adequado para o MediaPipe com as cores em RGB
-    image = mp.Image(image_format=mp.ImageFormat.SRGB, data=rgb)
+    imagem = mp.Image(image_format=mp.ImageFormat.SRGB, data=rgb)
     
     # Ação de detecção do MediaPipe
-    result = detector.detect(image)
+    resultado = detector.detect(imagem)
     
     # Detecção da bounding box do frame
-    for detection in result.detections:
-        bbox = detection.bounding_box
-        xi = bbox.origin_x
-        yi = bbox.origin_y
-        xf = xi + bbox.width
-        yf = yi + bbox.height
-        
-        # Desenho da bounding box
-        cv2.rectangle(frame, (xi, yi), (xf, yf), (0, 255, 0), 2)
+    if resultado.detections:
+        for detection in resultado.detections:
+            bbox = detection.bounding_box
+            xi = bbox.origin_x
+            yi = bbox.origin_y
+            xf = xi + bbox.width
+            yf = yi + bbox.height
+            
+            # Desenho da bounding box
+
+            # Aqui, primeiramente pegamos a categoria e confiabilidade do objeto detectado
+            categoria = detection.categories[0].category_name
+            confianca = detection.categories[0].score
+            # Após isso, exibimos a categoria, sua confiabilidade e a bounding box propriamente dita
+            cv2.putText(frame, f"{categoria}; confianca: {confianca:.2f}", (bbox.origin_x, bbox.origin_y), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 0, 0), 2)
+            cv2.rectangle(frame, (xi, yi), (xf, yf), (255, 0, 0), 2)
     
     # Exibição da bounding box
     cv2.imshow("Bola de Futebol", frame)
