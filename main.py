@@ -11,14 +11,14 @@ from mediapipe.tasks.python import vision
 
 # Passo 1: definição das configurações de detecção e filtragem para detectar a bola de futebol, enquadrada na categoria 
 # 'sports ball' abaixo
-base_options = python.BaseOptions(model_asset_path = 'efficientdet_lite2.tflite') # pack com as classes de objetos identificáveis
+base_options = python.BaseOptions(model_asset_path = 'efficientdet_lite0.tflite') # pack com as classes de objetos identificáveis
 options = vision.ObjectDetectorOptions(base_options = base_options, score_threshold = 0.1, category_allowlist = ["sports ball"])
 
 # Passo 2: inicialização do detector MediaPipe
 detector = vision.ObjectDetector.create_from_options(options)
 
 # Passo 3: Abertura do(a) vídeo teste/webcam
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture("bola60fps.mp4")
 if not cap.isOpened():
     raise RuntimeError("O(a) vídeo/câmera não pode ser aberto(a)")
 
@@ -28,6 +28,9 @@ while True:
     ok, frame = cap.read()
     if not ok:
         break
+    
+    # Redimensionamento para aumento de FPS
+    frame = cv2.resize(frame, (1280, 720))
     
     # Conversão de cores (OpenCV trabalha com BGR e MediaPipe precisa do RGB)
     rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
@@ -57,7 +60,7 @@ while True:
             cv2.rectangle(frame, (xi, yi), (xf, yf), (255, 0, 0), 2)
     
     # Exibição da bounding box
-    cv2.imshow("Bola de Futebol", frame)
+    cv2.imshow("Bola Laranja", frame)
     
     # Espera 1 milissegundo e verifica se a tecla 'q' foi pressionada em caso de desejo de encerramento do programa
     if cv2.waitKey(1) & 0xFF == ord('q'):
