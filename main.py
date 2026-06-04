@@ -4,6 +4,8 @@
 import cv2
 # NumPy, dependência implícita para representação das coordenadas enquanto parte de matrizes
 import numpy as np
+# Import para cálculo de quantidade de frames por segundo
+import time
 # MediaPipe, framework para detecção, isolamento e classificação do objeto alvo
 import mediapipe as mp
 from mediapipe.tasks import python 
@@ -23,6 +25,7 @@ if not cap.isOpened():
     raise RuntimeError("O(a) vídeo/câmera não pode ser aberto(a)")
 
 # Passo 4: loop de detecção frame a frame
+tempo_anterior = time.time()
 while True:
     # Leitura do frame em questão, com verificação se o frame ainda é válido ou se o vídeo já se encerrou
     ok, frame = cap.read()
@@ -40,6 +43,21 @@ while True:
     
     # Ação de detecção do MediaPipe
     resultado = detector.detect(imagem)
+
+    # Print de fps do video
+    tempo_atual = time.time()
+    fps = 1 / (tempo_atual - tempo_anterior)
+    tempo_anterior = tempo_atual
+
+    cv2.putText(
+        frame,
+        f"FPS: {fps:.1f}",
+        (20, 40),
+        cv2.FONT_HERSHEY_SIMPLEX,
+        1,
+        (0, 255, 0),
+        2
+    )
     
     # Detecção da bounding box do frame
     if resultado.detections:
@@ -49,6 +67,11 @@ while True:
             yi = bbox.origin_y
             xf = xi + bbox.width
             yf = yi + bbox.height
+            largura = bbox.width   
+            altura = bbox.height
+            centro_x = xi + largura // 2
+            centro_y = yi + altura // 2
+            
             
             # Desenho da bounding box
 
@@ -58,6 +81,7 @@ while True:
             # Após isso, exibimos a categoria, sua confiabilidade e a bounding box propriamente dita
             cv2.putText(frame, f"{categoria}; confianca: {confianca:.2f}", (bbox.origin_x, bbox.origin_y), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 0, 0), 2)
             cv2.rectangle(frame, (xi, yi), (xf, yf), (255, 0, 0), 2)
+            cv2.circle(frame,(centro_x, centro_y),5,(0, 0, 255),-1)
     
     # Exibição da bounding box
     cv2.imshow("Bola Laranja", frame)
