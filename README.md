@@ -19,7 +19,7 @@
 ### Ambiente virtual
 #### Como dito anteriormente, configura-se um ambiente virtual para isolar as versões das dependências do projeto em questão, evitando conflito ou alteração de versões na máquina como um todo.
 
-##### 1. Vá até a pasta do projeto:
+#### 1. Vá até a pasta do projeto:
     cd (Caminho)
 
 #### 2. Crie o ambiente virtual na pasta do projeto:
