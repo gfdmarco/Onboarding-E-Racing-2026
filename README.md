@@ -26,16 +26,16 @@
     python3 -m venv venv
 
 #### 3. Ative o ambiente virtual:
-        - Linux / MacOS:
-            source venv/bin/activate
-        - Windows:
-            - Powershell:
-                venv\Scripts\Activate.ps1
-            - CMD:
-                venv\Scripts\activate.bat
+##### Linux / MacOS:
+    source venv/bin/activate
+##### Windows:
+###### Powershell:
+    venv\Scripts\Activate.ps1
+###### CMD:
+    venv\Scripts\activate.bat
 
 #### 4.  Instale as dependências especificadas no documento de planejamento**
-        pip install -r requirements.txt
+    pip install -r requirements.txt
     
 ### Dependências
     | Componente | Versão    | Função |
