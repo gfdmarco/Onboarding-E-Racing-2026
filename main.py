@@ -4,6 +4,8 @@
 import cv2
 # NumPy, dependência implícita para representação das coordenadas enquanto parte de matrizes
 import numpy as np
+# Import para cálculo de quantidade de frames por segundo
+import time
 # MediaPipe, framework para detecção, isolamento e classificação do objeto alvo
 import mediapipe as mp
 from mediapipe.tasks import python 
@@ -24,6 +26,7 @@ if not cap.isOpened():
     raise RuntimeError("O(a) vídeo/câmera não pode ser aberto(a)")
 
 # Passo 4: loop de detecção frame a frame
+tempo_anterior = time.time()
 while True:
     # Leitura do frame em questão, com verificação se o frame ainda é válido ou se o vídeo já se encerrou
     ok, frame = cap.read()
@@ -41,6 +44,21 @@ while True:
     
     # Ação de detecção do MediaPipe
     resultado = detector.detect(imagem)
+
+    # Print de fps do video
+    tempo_atual = time.time()
+    fps = 1 / (tempo_atual - tempo_anterior)
+    tempo_anterior = tempo_atual
+
+    cv2.putText(
+        frame,
+        f"FPS: {fps:.1f}",
+        (20, 40),
+        cv2.FONT_HERSHEY_SIMPLEX,
+        1,
+        (0, 255, 0),
+        2
+    )
     
     # Detecção da bounding box do frame
     if resultado.detections:
