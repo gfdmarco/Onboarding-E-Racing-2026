@@ -1,5 +1,5 @@
 # Onboarding DV 2026 - Grupo 5
-    Algoritmo de percepção desenvolvido pelo Grupo 5 do Onboarding 2026 para a detecção de bola laranja. Para isso, utilizamos a classe "sports ball" do dataset "EfficientDet Lite0" oferecido pela Google junto com o MediaPipe.
+### Algoritmo de percepção desenvolvido pelo Grupo 5 do Onboarding 2026 para a detecção de bola laranja. Para isso, utilizamos a classe "sports ball" do dataset "EfficientDet Lite0" oferecido pela Google junto com o MediaPipe.
 
 ## Instalação
 
