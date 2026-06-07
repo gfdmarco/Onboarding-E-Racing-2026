@@ -18,7 +18,8 @@ options = vision.ObjectDetectorOptions(base_options = base_options, score_thresh
 detector = vision.ObjectDetector.create_from_options(options)
 
 # Passo 3: Abertura do(a) vídeo teste/webcam
-cap = cv2.VideoCapture("bola60fps.mp4")
+cap = cv2.VideoCapture("videosTeste/bola60fps.mp4")
+# OBS: para usar a webcam -> cv2.VideoCapture(0)
 if not cap.isOpened():
     raise RuntimeError("O(a) vídeo/câmera não pode ser aberto(a)")
 
