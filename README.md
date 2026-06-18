@@ -31,6 +31,8 @@
 ##### Windows:
 ###### Powershell:
     venv\Scripts\Activate.ps1
+###### caso não funcione, tente:
+    .\venv\Scripts\Activate.ps1
 ###### CMD:
     venv\Scripts\activate.bat
 
@@ -39,7 +41,7 @@
     
 ### Dependências
     | Componente | Versão    | Função |
-    | :--        | :---:     | :--- |
+    | ---------- | --------- | ------ |
     | Python     | 3.11      | Linguagem de programação |
     | MediaPipe  | 0.10.35   | Framework de Isolamento e detecção |
     | OpenCV     | 4.10.0.84 | Captura, pré-processamento e bounding boxes |
